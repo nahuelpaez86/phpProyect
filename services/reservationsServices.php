@@ -25,28 +25,33 @@ switch ($action) {
    case 'getAllFromCurrentUser':
     handleGetAll($conexion, $userId);
     break;
-
-  case 'update':
-    if ($redirectUrlCustom) {
-      handleUpdate($conexion, '../' . $redirectUrlCustom);
-    } else {
-      handleUpdate($conexion,$redirectUrl);
-    }
-   
-    break;
-
-  case 'create':
-    handleCreate($conexion, $userId);
-    break;
-  case 'delete':
-    handleDelete($conexion,$isAdmin,$redirectUrl);
-    break;
-
-  default:
-    http_response_code(400);
-    echo "Acción no válida";
-    break;
+   case 'update':
+      if ($redirectUrlCustom) {
+        handleUpdate($conexion, '../' . $redirectUrlCustom);
+      } else {
+        handleUpdate($conexion,$redirectUrl);
+      }
+      break;
+   case 'create':
+      handleCreate($conexion, $userId);
+      break;
+   case 'delete':
+      handleDelete($conexion,$isAdmin,$redirectUrl);
+      break;
+   default:
+      http_response_code(400);
+      echo "Acción no válida";
+      break;
 }
+
+function getConnectionDB() {
+  $conn = new mysqli("localhost", "root", "", "rentaveloz");
+  if ($conn->connect_error) {
+      return null;
+  }
+  return $conn;
+}
+
 
 function handleGetAll($conexion, $userId) {
     $stmt = $conexion->prepare("
@@ -215,6 +220,8 @@ function cancelReservation($conexion,$redirectUrl) {
       exit;
   }
 }
+
+
 
 // Status codes: 
 // 303 -- confirmada

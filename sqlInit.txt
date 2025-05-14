@@ -58,6 +58,40 @@ INSERT INTO cars (id, image, old_price, new_price, title, km, engine, transmissi
 (5, 'assets/images/product-5-720x480.jpg', 60000.00, 58000.00, 'BMW M2 Coupé', '0 km', '3.0L Turbo 480 CV', 'Manual', 4, 1),
 (6, 'assets/images/product-6-720x480.jpg', 80000.00, 78000.00, 'BMW M3 Competition Verde Mantis', '0 km', '3.0L Turbo 510 CV', 'Automática', 5, 1);
 
+// TABLA MANTENIMIENTO 
+CREATE TABLE maintenance (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    car_id INT NOT NULL,
+    start_date DATE NOT NULL,
+    end_date DATE,
+    service_type VARCHAR(100) NOT NULL,
+    description TEXT,
+    cost DECIMAL(10, 2),
+    status ENUM('pending', 'in_progress', 'completed') DEFAULT 'pending',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (car_id) REFERENCES cars(id) ON DELETE CASCADE
+);
+
+INSERT INTO maintenance (
+    car_id,
+    start_date,
+    end_date,
+    service_type,
+    description,
+    cost,
+    status
+) VALUES (
+    1,
+    '2025-05-01',
+    '2025-05-03',
+    'Cambio de aceite',
+    'Se realizó el cambio de aceite y filtro del motor. Se utilizó aceite sintético 5W-30.',
+    15000.00,
+    'completed'
+);
+
+
 TO DO : 
 
 Falta:
@@ -81,15 +115,20 @@ Seguimiento:
    -create? -- se crea del lado del usuario cliente.
    -read --- ok -- ver de mostrar el usuario que hizo la reserva. O generar un codigo de reserva, mas facil
  - usuarios :
-   -delete -- OK --- ver si le borramos las reservas que tenga. O si le bloqueamos la eliminacion hasta que se cancelen reservas.
+   -delete -- OK 
    -update -- OK
    -create -- OK
    -read -- ok 
 - autos :
-   -delete 
-   -update -- OK 
-   -create 
+   -delete --ok 
+   -update -- OK -- ver bien que pasa si hay error, se guarda la imagen? 
+   -create - ok 
    -read  --OK
-
+- mantenimientos
+   - delete  - ok
+   - update --ok
+   - create -ok 
+   - read -- ok
+   
 fixs:
 - ver "no hay reservas" en admin dashboard

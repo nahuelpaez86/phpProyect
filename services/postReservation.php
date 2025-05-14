@@ -20,7 +20,7 @@ $status_code = 303;
 $user_id = $_SESSION['user_id'];
 
 if (!$car_id || !$days || !$init_date || !$end_date || !$payment_method) {
-    die("Faltan datos obligatorios.");
+    die("Faltan datos obligatorios post.");
 }
 
 // Conexión a la base de datos

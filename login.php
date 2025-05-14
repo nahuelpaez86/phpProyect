@@ -14,35 +14,35 @@ $errorMessage = '';
 // Conexión a la base de datos
 $conexion = new mysqli("localhost", "root", "", "rentaveloz");
 if ($conexion->connect_error) {
-    die("Error de conexión: " . $conexion->connect_error);
+  die("Error de conexión: " . $conexion->connect_error);
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $email = trim($_POST['email'] ?? '');
-    $password = trim($_POST['password'] ?? '');
+  $email = trim($_POST['email'] ?? '');
+  $password = trim($_POST['password'] ?? '');
 
-    // Consulta el usuario por email
-    $stmt = $conexion->prepare("SELECT * FROM system_user WHERE email = ?");
-    $stmt->bind_param("s", $email);
-    $stmt->execute();
-    $resultado = $stmt->get_result();
-    $usuario = $resultado->fetch_assoc();
+  // Consulta el usuario por email
+  $stmt = $conexion->prepare("SELECT * FROM system_user WHERE email = ?");
+  $stmt->bind_param("s", $email);
+  $stmt->execute();
+  $resultado = $stmt->get_result();
+  $usuario = $resultado->fetch_assoc();
 
-    if ($usuario && $password === $usuario['password']) {
-        $_SESSION['user_id'] = $usuario['id'];
-        $_SESSION['user_name'] = $usuario['name'];
-        $_SESSION['user_email'] = $usuario['email'];
-        $_SESSION['user_role'] = $usuario['role'];
-        if( $_SESSION['user_role'] == 'admin') {
-          header("Location: admin-dashboard.php");
-        } else {
-          header("Location: index.php");
-        }
-       
-        exit();
+  if ($usuario && $password === $usuario['password']) {
+    $_SESSION['user_id'] = $usuario['id'];
+    $_SESSION['user_name'] = $usuario['name'];
+    $_SESSION['user_email'] = $usuario['email'];
+    $_SESSION['user_role'] = $usuario['role'];
+    if ($_SESSION['user_role'] == 'admin') {
+      header("Location: admin-dashboard.php");
     } else {
-        $errorMessage = 'Correo o contraseña incorrectos.';
+      header("Location: index.php");
     }
+
+    exit();
+  } else {
+    $errorMessage = 'Correo o contraseña incorrectos.';
+  }
 }
 $isLogged = isset($_SESSION['user_id']);
 ?>
@@ -68,21 +68,25 @@ $isLogged = isset($_SESSION['user_id']);
       border-radius: 10px;
       box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
     }
+
     .login-container h3 {
       font-weight: 700;
       text-align: center;
       margin-bottom: 1.5rem;
       color: #2d2f33;
     }
+
     .btn-login {
       background-color: #ff4d30;
       color: white;
       font-weight: 600;
       width: 100%;
     }
+
     .btn-login:hover {
       background-color: #e04329;
     }
+
     .form-control:focus {
       border-color: #ff4d30;
       box-shadow: 0 0 0 0.2rem rgba(255, 77, 48, 0.25);
@@ -92,7 +96,7 @@ $isLogged = isset($_SESSION['user_id']);
 
 <body>
   <?php renderLoader(); ?>
-  <?php renderHeader('login',$isLogged); ?>
+  <?php renderHeader('login', $isLogged); ?>
 
   <section class="section section-bg" id="call-to-action" style="background-image: url(assets/images/banner-image-1-1920x500.jpg)">
     <div class="container">
@@ -122,8 +126,8 @@ $isLogged = isset($_SESSION['user_id']);
       <button type="submit" class="btn btn-login">Ingresar</button>
     </form>
     <div class="container mt-4">
-        <?php renderAlert('danger', $errorMessage); ?>
-        <?php renderAlert('success', $successMessage); ?>
+      <?php renderAlert('danger', $errorMessage); ?>
+      <?php renderAlert('success', $successMessage); ?>
     </div>
   </div>
 

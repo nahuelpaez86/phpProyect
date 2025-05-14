@@ -65,7 +65,7 @@ $isLogged = isset($_SESSION['user_id']);
 <!DOCTYPE html>
 <html lang="en">
 
-  <head>
+<head>
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -81,17 +81,17 @@ $isLogged = isset($_SESSION['user_id']);
 
     <link rel="stylesheet" href="assets/css/style.css">
 
-    </head>
-    
-    <body>
-    
+</head>
+
+<body>
+
     <!-- ***** Preloader Start ***** -->
     <?php renderLoader(); ?>
     <!-- ***** Preloader End ***** -->
-    
-    
+
+
     <!-- ***** Header Area Start ***** -->
-    <?php renderHeader('home',$isLogged); ?>
+    <?php renderHeader('home', $isLogged); ?>
     <!-- ***** Header Area End ***** -->
 
     <!-- ***** Main Banner Area Start ***** -->
@@ -108,7 +108,7 @@ $isLogged = isset($_SESSION['user_id']);
     </div>
     <!-- ***** Main Banner Area End ***** -->
 
-   <!-- ***** Cars Starts ***** -->
+    <!-- ***** Cars Starts ***** -->
     <section class="section" id="trainers">
         <div class="container">
             <div class="row">
@@ -122,26 +122,26 @@ $isLogged = isset($_SESSION['user_id']);
             </div>
 
             <div class="row">
-                <?php foreach($cars as $car): ?>
-                <div class="col-lg-4">
-                    <div class="trainer-item">
-                        <div class="image-thumb">
-                            <img src="<?php echo $car['image']; ?>" alt="">
-                        </div>
-                        <div class="down-content">
-                            <span>
-                                <del><sup>$</sup><?php echo $car['old_price']; ?></del> &nbsp; <sup>$</sup><?php echo $car['new_price']; ?>
-                            </span>
+                <?php foreach ($cars as $car): ?>
+                    <div class="col-lg-4">
+                        <div class="trainer-item">
+                            <div class="image-thumb">
+                                <img src="<?php echo $car['image']; ?>" alt="">
+                            </div>
+                            <div class="down-content">
+                                <span>
+                                    <del><sup>$</sup><?php echo $car['old_price']; ?></del> &nbsp; <sup>$</sup><?php echo $car['new_price']; ?>
+                                </span>
 
-                            <h4><?php echo $car['title']; ?></h4>
+                                <h4><?php echo $car['title']; ?></h4>
 
-                            <p>
-                                <i class="fa fa-cube"></i> <?php echo $car['engine']; ?> &nbsp;&nbsp;&nbsp;
-                                <i class="fa fa-cog"></i> <?php echo $car['transmission']; ?> &nbsp;&nbsp;&nbsp;
-                            </p>
+                                <p>
+                                    <i class="fa fa-cube"></i> <?php echo $car['engine']; ?> &nbsp;&nbsp;&nbsp;
+                                    <i class="fa fa-cog"></i> <?php echo $car['transmission']; ?> &nbsp;&nbsp;&nbsp;
+                                </p>
+                            </div>
                         </div>
                     </div>
-                </div>
                 <?php endforeach; ?>
             </div>
 
@@ -187,7 +187,7 @@ $isLogged = isset($_SESSION['user_id']);
 
                 <div class="col-lg-6">
                     <ul class="features-items">
-                        <?php foreach($first_testimonials as $testimonial): ?>
+                        <?php foreach ($first_testimonials as $testimonial): ?>
                             <li class="feature-item">
                                 <div class="left-icon">
                                     <img src="<?php echo $testimonial['image']; ?>" alt="First One">
@@ -200,10 +200,10 @@ $isLogged = isset($_SESSION['user_id']);
                         <?php endforeach ?>
                     </ul>
                 </div>
-              
+
                 <div class="col-lg-6">
                     <ul class="features-items">
-                        <?php foreach($seconds_testimonials as $testimonial): ?>
+                        <?php foreach ($seconds_testimonials as $testimonial): ?>
                             <li class="feature-item">
                                 <div class="left-icon">
                                     <img src="<?php echo $testimonial['image']; ?>" alt="First One">
@@ -221,7 +221,7 @@ $isLogged = isset($_SESSION['user_id']);
         </div>
     </section>
     <!-- ***** Testimonials Item End ***** -->
-    
+
 
     <!-- ***** Call to Action Start ***** -->
     <section class="section section-bg" id="call-to-action" style="background-image: url(assets/images/banner-image-1-1920x500.jpg)">
@@ -254,12 +254,13 @@ $isLogged = isset($_SESSION['user_id']);
     <script src="assets/js/scrollreveal.min.js"></script>
     <script src="assets/js/waypoints.min.js"></script>
     <script src="assets/js/jquery.counterup.min.js"></script>
-    <script src="assets/js/imgfix.min.js"></script> 
-    <script src="assets/js/mixitup.js"></script> 
+    <script src="assets/js/imgfix.min.js"></script>
+    <script src="assets/js/mixitup.js"></script>
     <script src="assets/js/accordions.js"></script>
-    
+
     <!-- Global Init -->
     <script src="assets/js/custom.js"></script>
 
-  </body>
+</body>
+
 </html>

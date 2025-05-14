@@ -51,7 +51,7 @@ $isLogged = isset($_SESSION['user_id']);
     <!-- ***** Preloader End ***** -->
 
     <!-- ***** Header Area Start ***** -->
-    <?php renderHeader('cars',$isLogged); ?>
+    <?php renderHeader('cars', $isLogged); ?>
     <!-- ***** Header Area End ***** -->
 
     <!-- ***** Call to Action Start ***** -->
@@ -79,65 +79,65 @@ $isLogged = isset($_SESSION['user_id']);
             <br>
             <div class="row">
                 <?php foreach ($cars as $car): ?>
-                <div class="col-lg-4">
-                    <div class="trainer-item">
-                        <div class="image-thumb">
-                            <img src="<?php echo $car['image']; ?>" alt="">
-                        </div>
-                        <div class="down-content">
-                            <span>
-                                <del><sup>$</sup><?php echo number_format($car['old_price'], 0, ',', '.'); ?></del>
-                                &nbsp;
-                                <sup>$</sup><?php echo number_format($car['new_price'], 0, ',', '.'); ?>
-                            </span>
+                    <div class="col-lg-4">
+                        <div class="trainer-item">
+                            <div class="image-thumb">
+                                <img src="<?php echo $car['image']; ?>" alt="">
+                            </div>
+                            <div class="down-content">
+                                <span>
+                                    <del><sup>$</sup><?php echo number_format($car['old_price'], 0, ',', '.'); ?></del>
+                                    &nbsp;
+                                    <sup>$</sup><?php echo number_format($car['new_price'], 0, ',', '.'); ?>
+                                </span>
 
-                            <h4><?php echo $car['title']; ?></h4>
-                            <p>
-                                <i class="fa fa-dashboard"></i> <?php echo $car['km']; ?> &nbsp;&nbsp;&nbsp;
-                                <i class="fa fa-cube"></i> <?php echo $car['engine']; ?> &nbsp;&nbsp;&nbsp;
-                                <i class="fa fa-cog"></i> <?php echo $car['transmission']; ?> &nbsp;&nbsp;&nbsp;
-                            </p>
+                                <h4><?php echo $car['title']; ?></h4>
+                                <p>
+                                    <i class="fa fa-dashboard"></i> <?php echo $car['km']; ?> &nbsp;&nbsp;&nbsp;
+                                    <i class="fa fa-cube"></i> <?php echo $car['engine']; ?> &nbsp;&nbsp;&nbsp;
+                                    <i class="fa fa-cog"></i> <?php echo $car['transmission']; ?> &nbsp;&nbsp;&nbsp;
+                                </p>
 
-                            <div class="main-button text-center">
-                                <a href="<?php echo $car['link']; ?>" 
-                                class="btn-reservar" 
-                                data-link="<?php echo $car['link']; ?>">
-                                Reservar Ahora Mismo
-                                </a>
+                                <div class="main-button text-center">
+                                    <a href="<?php echo $car['link']; ?>"
+                                        class="btn-reservar"
+                                        data-link="<?php echo $car['link']; ?>">
+                                        Reservar Ahora Mismo
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
                 <?php endforeach; ?>
             </div>
-              <!-- Modal  -->
-           <!-- Modal Bootstrap -->
+            <!-- Modal  -->
+            <!-- Modal Bootstrap -->
             <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
 
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="loginModalLabel">Iniciar sesión requerida</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar">
-                         <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="loginModalLabel">Iniciar sesión requerida</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
 
-                    <div class="modal-body">
-                        Debes iniciar sesión o registrarte para continuar con la reserva.
-                    </div>
+                        <div class="modal-body">
+                            Debes iniciar sesión o registrarte para continuar con la reserva.
+                        </div>
 
-                    <div class="modal-footer d-flex flex-column">
-                        <a href="login.php" class="btn btn-danger w-100 mb-2 py-2">Iniciar sesión</a>
-                        <a href="register.php" class="btn btn-success w-100 mb-2 py-2">Registrarse</a>
-                        <button type="button" class="btn btn-secondary w-100 py-2" data-bs-dismiss="modal">Cancelar</button>
-                    </div>
+                        <div class="modal-footer d-flex flex-column">
+                            <a href="login.php" class="btn btn-danger w-100 mb-2 py-2">Iniciar sesión</a>
+                            <a href="register.php" class="btn btn-success w-100 mb-2 py-2">Registrarse</a>
+                            <button type="button" class="btn btn-secondary w-100 py-2" data-bs-dismiss="modal">Cancelar</button>
+                        </div>
 
                     </div>
                 </div>
-                </div>
+            </div>
 
-          
+
             <br>
         </div>
     </section>
@@ -145,7 +145,7 @@ $isLogged = isset($_SESSION['user_id']);
 
     <!-- ***** Footer Start ***** -->
     <?php echo renderFooter(); ?>
-    
+
     <!-- jQuery -->
     <script src="assets/js/jquery-2.1.0.min.js"></script>
 
@@ -163,26 +163,25 @@ $isLogged = isset($_SESSION['user_id']);
     <script src="assets/js/accordions.js"></script>
     <script src="assets/js/custom.js"></script>
     <script>
-    const isLoggedIn = <?= json_encode($isLogged) ?>;
+        const isLoggedIn = <?= json_encode($isLogged) ?>;
 
-    document.addEventListener('DOMContentLoaded', function () {
-        document.querySelectorAll('.btn-reservar').forEach(function (btn) {
-        btn.addEventListener('click', function (e) {
-            if (!isLoggedIn) {
-            e.preventDefault();
-            const modal = new bootstrap.Modal(document.getElementById('loginModal'));
-            modal.show();
-            }
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.btn-reservar').forEach(function(btn) {
+                btn.addEventListener('click', function(e) {
+                    if (!isLoggedIn) {
+                        e.preventDefault();
+                        const modal = new bootstrap.Modal(document.getElementById('loginModal'));
+                        modal.show();
+                    }
+                });
+            });
         });
-        });
-    });
 
-    function closeModal() {
-        document.getElementById('loginModal').style.display = 'none';
-    }
+        function closeModal() {
+            document.getElementById('loginModal').style.display = 'none';
+        }
     </script>
-    
+
 </body>
 
 </html>
-

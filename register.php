@@ -9,42 +9,42 @@ $errorMessage = '';
 
 $conexion = new mysqli("localhost", "root", "", "rentaveloz");
 if ($conexion->connect_error) {
-    die("Error de conexión: " . $conexion->connect_error);
+  die("Error de conexión: " . $conexion->connect_error);
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $name = trim($_POST['name'] ?? '');
-    $email = trim($_POST['email'] ?? '');
-    $password = trim($_POST['password'] ?? '');
-    $confirmPassword = trim($_POST['confirmPassword'] ?? '');
+  $name = trim($_POST['name'] ?? '');
+  $email = trim($_POST['email'] ?? '');
+  $password = trim($_POST['password'] ?? '');
+  $confirmPassword = trim($_POST['confirmPassword'] ?? '');
 
-    if (empty($name) || empty($email) || empty($password) || $password !== $confirmPassword) {
-        $errorMessage = '⚠️ Las contraseñas no coinciden o hay campos incompletos.';
+  if (empty($name) || empty($email) || empty($password) || $password !== $confirmPassword) {
+    $errorMessage = '⚠️ Las contraseñas no coinciden o hay campos incompletos.';
+  } else {
+    // Encriptar la contraseña
+    $passwordHash = password_hash($password, PASSWORD_DEFAULT);
+    $role = 'client';
+
+    // Verificamos si el email ya existe
+    $check = $conexion->prepare("SELECT id FROM system_user WHERE email = ?");
+    $check->bind_param("s", $email);
+    $check->execute();
+    $check->store_result();
+
+    if ($check->num_rows > 0) {
+      $errorMessage = '❌ El correo ya está registrado.';
     } else {
-        // Encriptar la contraseña
-        $passwordHash = password_hash($password, PASSWORD_DEFAULT);
-        $role = 'client';
+      // Insertar nuevo usuario
+      $stmt = $conexion->prepare("INSERT INTO system_user (name, email, password, role) VALUES (?, ?, ?, ?)");
+      $stmt->bind_param("ssss", $name, $email, $passwordHash, $role);
 
-        // Verificamos si el email ya existe
-        $check = $conexion->prepare("SELECT id FROM system_user WHERE email = ?");
-        $check->bind_param("s", $email);
-        $check->execute();
-        $check->store_result();
-
-        if ($check->num_rows > 0) {
-            $errorMessage = '❌ El correo ya está registrado.';
-        } else {
-            // Insertar nuevo usuario
-            $stmt = $conexion->prepare("INSERT INTO system_user (name, email, password, role) VALUES (?, ?, ?, ?)");
-            $stmt->bind_param("ssss", $name, $email, $passwordHash, $role);
-
-            if ($stmt->execute()) {
-                $successMessage = '✅ Registro completado correctamente.';
-            } else {
-                $errorMessage = '❌ Error al registrar el usuario: ' . $stmt->error;
-            }
-        }
+      if ($stmt->execute()) {
+        $successMessage = '✅ Registro completado correctamente.';
+      } else {
+        $errorMessage = '❌ Error al registrar el usuario: ' . $stmt->error;
+      }
     }
+  }
 }
 ?>
 <!DOCTYPE html>
@@ -69,21 +69,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       border-radius: 10px;
       box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
     }
+
     .register-container h3 {
       font-weight: 700;
       text-align: center;
       margin-bottom: 1.5rem;
       color: #2d2f33;
     }
+
     .btn-register {
       background-color: #ff4d30;
       color: white;
       font-weight: 600;
       width: 100%;
     }
+
     .btn-register:hover {
       background-color: #e04329;
     }
+
     .form-control:focus {
       border-color: #ff4d30;
       box-shadow: 0 0 0 0.2rem rgba(255, 77, 48, 0.25);
@@ -93,7 +97,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <body>
   <?php renderLoader(); ?>
-  <?php renderHeader('register',false); ?>
+  <?php renderHeader('register', false); ?>
 
   <section class="section section-bg" id="call-to-action" style="background-image: url(assets/images/banner-image-1-1920x500.jpg)">
     <div class="container">
@@ -109,7 +113,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
   </section>
 
- 
+
 
   <div class="register-container">
     <h3>Registrarse</h3>
@@ -132,15 +136,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       </div>
       <button type="submit" class="btn btn-register">Registrarme</button>
     </form>
-        <div class="container mt-4">
-        <?php if (!empty($errorMessage)) : ?>
-            <?php renderAlert('danger', $errorMessage); ?>
-        <?php endif; ?>
+    <div class="container mt-4">
+      <?php if (!empty($errorMessage)) : ?>
+        <?php renderAlert('danger', $errorMessage); ?>
+      <?php endif; ?>
 
-        <?php if (!empty($successMessage)) : ?>
-            <?php renderAlert('success', $successMessage); ?>
-        <?php endif; ?>
-  </div>
+      <?php if (!empty($successMessage)) : ?>
+        <?php renderAlert('success', $successMessage); ?>
+      <?php endif; ?>
+    </div>
   </div>
 
   <?php echo renderFooter(); ?>

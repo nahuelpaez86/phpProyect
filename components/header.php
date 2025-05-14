@@ -14,6 +14,7 @@ function renderHeader($current_selected, $isLogged) {
             ['key' => 'reservations', 'name' => 'reservas', 'path' => 'admin-dashboard.php'],
             ['key' => 'users', 'name' => 'usuarios', 'path' => 'admin-users.php'],
             ['key' => 'cars', 'name' => 'Autos', 'path' => 'admin-cars.php'],
+            ['key' => 'maintenance', 'name' => 'Mantenimiento', 'path' => 'admin-car-maintenance.php'],
             ['key' => 'logout', 'name' => 'Cerrar Sesión', 'path' => 'logout.php']
           ]
         : [

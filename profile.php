@@ -16,7 +16,7 @@ $user = [
 /// -------------------- GET
 $conexion = new mysqli("localhost", "root", "", "rentaveloz");
 if ($conexion->connect_error) {
-    die("Error de conexión: " . $conexion->connect_error);
+  die("Error de conexión: " . $conexion->connect_error);
 }
 
 $stmt = $conexion->prepare("
@@ -41,28 +41,27 @@ $reservationStatus = '';
 // 301 -- terminada la reserva
 // 300 -- cancelada
 while ($row = $result->fetch_assoc()) {
-  
+
   switch ($row['status_code']) {
     case 303:
-        $row['status_text'] = 'Confirmada';
-        $row['status_color'] = 'warning';
-        break;
-    case 302: 
-        $row['status_text'] = 'En curso';
-        $row['status_color'] = 'primary';
-        break;
-    case 301: 
-        $row['status_text'] = 'Terminada';
-        $row['status_color'] = 'success';
-        break;
+      $row['status_text'] = 'Confirmada';
+      $row['status_color'] = 'warning';
+      break;
+    case 302:
+      $row['status_text'] = 'En curso';
+      $row['status_color'] = 'primary';
+      break;
+    case 301:
+      $row['status_text'] = 'Terminada';
+      $row['status_color'] = 'success';
+      break;
     case 300:
-        $row['status_text'] = 'Cancelada';
-        $row['status_color'] = 'danger';
-        break;
-   }
-  
+      $row['status_text'] = 'Cancelada';
+      $row['status_color'] = 'danger';
+      break;
+  }
+
   $reservations[] = $row;
-  
 }
 
 /// -------------------- GET
@@ -85,6 +84,7 @@ $name = $_SESSION['user_name'];
       background-color: #f8f9fa;
       padding: 4rem 1rem;
     }
+
     .perfil-container {
       max-width: 850px;
       background: #fff;
@@ -93,15 +93,19 @@ $name = $_SESSION['user_name'];
       border-radius: 15px;
       box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
     }
+
     .perfil-container h3 {
       font-weight: bold;
       color: #2d2f33;
       margin-bottom: 1.5rem;
     }
+
     .perfil-info p {
       margin: 0.25rem 0;
     }
-    .table th, .table td {
+
+    .table th,
+    .table td {
       vertical-align: middle;
     }
   </style>
@@ -110,7 +114,7 @@ $name = $_SESSION['user_name'];
 <body>
   <?php renderLoader(); ?>
 
-  <?php renderHeader('profile',$isLogged); ?>
+  <?php renderHeader('profile', $isLogged); ?>
 
   <section class="section section-bg" id="call-to-action" style="background-image: url(assets/images/banner-image-1-1920x500.jpg)">
     <div class="container">
@@ -139,78 +143,79 @@ $name = $_SESSION['user_name'];
 
       <h3>Reservas Realizadas</h3>
       <div class="table-responsive">
-      <?php if (!empty($reservations)): ?>
-        <table class="table table-bordered table-hover">
-          <thead class="table-light">
-            <tr>
-              <th>Vehículo</th>
-              <th>Desde</th>
-              <th>Hasta</th>
-              <th>Dias</th>
-              <th>Precio</th>
-              <th>Estado</th>
-              <th>Acciones</th>
-            </tr>
-          </thead>
-        
-          <tbody>
-          <?php foreach ($reservations as $reservation): ?>
-            
+        <?php if (!empty($reservations)): ?>
+          <table class="table table-bordered table-hover">
+            <thead class="table-light">
               <tr>
-                <td><?= htmlspecialchars($reservation['title']) ?></td>
-                <td><?= htmlspecialchars($reservation['init_date']) ?></td>
-                <td><?= htmlspecialchars($reservation['end_date']) ?></td>
-                <td><?= htmlspecialchars($reservation['days']) ?></td>
-                <td><?= htmlspecialchars('$' . number_format($reservation['total_amount'], 2, ',', '.')) ?></td>
-                <td>
-                  <span class="badge bg-<?= htmlspecialchars($reservation['status_color']) ?>">
-                    <?= htmlspecialchars($reservation['status_text']) ?>
-                  </span>
-                </td>
-                <td>
-                  <?php if ($reservation['status_code'] === 303): ?>
-                    <a href="editReservation.php?id=<?= $reservation['id'] ?>" class="btn btn-sm btn-outline-primary me-1">Editar</a>
-                    <a href="services/cancelReservation.php?id=<?= $reservation['id'] ?>" class="btn btn-sm btn-outline-danger"
-                       onclick="return confirm('¿Estás seguro de que querés cancelar esta reserva?');">Cancelar</a>
+                <th>Vehículo</th>
+                <th>Desde</th>
+                <th>Hasta</th>
+                <th>Dias</th>
+                <th>Precio</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <?php foreach ($reservations as $reservation): ?>
+
+                <tr>
+                  <td><?= htmlspecialchars($reservation['title']) ?></td>
+                  <td><?= htmlspecialchars($reservation['init_date']) ?></td>
+                  <td><?= htmlspecialchars($reservation['end_date']) ?></td>
+                  <td><?= htmlspecialchars($reservation['days']) ?></td>
+                  <td><?= htmlspecialchars('$' . number_format($reservation['total_amount'], 2, ',', '.')) ?></td>
+                  <td>
+                    <span class="badge bg-<?= htmlspecialchars($reservation['status_color']) ?>">
+                      <?= htmlspecialchars($reservation['status_text']) ?>
+                    </span>
+                  </td>
+                  <td>
+                    <?php if ($reservation['status_code'] === 303): ?>
+                      <a href="editReservation.php?id=<?= $reservation['id'] ?>" class="btn btn-sm btn-outline-primary me-1">Editar</a>
+                      <a href="services/cancelReservation.php?id=<?= $reservation['id'] ?>" class="btn btn-sm btn-outline-danger"
+                        onclick="return confirm('¿Estás seguro de que querés cancelar esta reserva?');">Cancelar</a>
                     <?php else: ?>
                       <span class="text-muted">No disponible</span>
                     <?php endif; ?>
-                </td>
-              </tr>
-            <?php endforeach; ?>
-          </tbody>
+                  </td>
+                </tr>
+              <?php endforeach; ?>
+            </tbody>
           <?php else: ?>
             <p class="text-center">No tenés reservas registradas.</p>
           <?php endif; ?>
-        </table>
-        <?php if (isset($_GET['post_success']) || isset($_GET['post_error'])): ?>
-          <?php if (isset($_GET['post_success'])): ?>
-            <?php renderAlert('success', htmlspecialchars($_GET['post_success'])); ?>
-          <?php elseif (isset($_GET['post_error'])): ?>
-            <?php renderAlert('danger', htmlspecialchars($_GET['post_error'])); ?>
+          </table>
+          <?php if (isset($_GET['post_success']) || isset($_GET['post_error'])): ?>
+            <?php if (isset($_GET['post_success'])): ?>
+              <?php renderAlert('success', htmlspecialchars($_GET['post_success'])); ?>
+            <?php elseif (isset($_GET['post_error'])): ?>
+              <?php renderAlert('danger', htmlspecialchars($_GET['post_error'])); ?>
+            <?php endif; ?>
           <?php endif; ?>
-        <?php endif; ?>
       </div>
     </div>
   </div>
 
   <?php echo renderFooter(); ?>
- <!-- jQuery -->
- <script src="assets/js/jquery-2.1.0.min.js"></script>
+  <!-- jQuery -->
+  <script src="assets/js/jquery-2.1.0.min.js"></script>
 
-<!-- Bootstrap -->
-<script src="assets/js/popper.js"></script>
-<script src="assets/js/bootstrap.min.js"></script>
+  <!-- Bootstrap -->
+  <script src="assets/js/popper.js"></script>
+  <script src="assets/js/bootstrap.min.js"></script>
 
-<!-- Plugins -->
-<script src="assets/js/scrollreveal.min.js"></script>
-<script src="assets/js/waypoints.min.js"></script>
-<script src="assets/js/jquery.counterup.min.js"></script>
-<script src="assets/js/imgfix.min.js"></script> 
-<script src="assets/js/mixitup.js"></script> 
-<script src="assets/js/accordions.js"></script>
+  <!-- Plugins -->
+  <script src="assets/js/scrollreveal.min.js"></script>
+  <script src="assets/js/waypoints.min.js"></script>
+  <script src="assets/js/jquery.counterup.min.js"></script>
+  <script src="assets/js/imgfix.min.js"></script>
+  <script src="assets/js/mixitup.js"></script>
+  <script src="assets/js/accordions.js"></script>
 
-<!-- Global Init -->
-<script src="assets/js/custom.js"></script>
+  <!-- Global Init -->
+  <script src="assets/js/custom.js"></script>
 </body>
+
 </html>
