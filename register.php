@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $errorMessage = '⚠️ Las contraseñas no coinciden o hay campos incompletos.';
   } else {
     // Encriptar la contraseña
-    $passwordHash = password_hash($password, PASSWORD_DEFAULT);
+    //$passwordHash = password_hash($password, PASSWORD_DEFAULT);
     $role = 'client';
 
     // Verificamos si el email ya existe
@@ -36,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
       // Insertar nuevo usuario
       $stmt = $conexion->prepare("INSERT INTO system_user (name, email, password, role) VALUES (?, ?, ?, ?)");
-      $stmt->bind_param("ssss", $name, $email, $passwordHash, $role);
+      $stmt->bind_param("ssss", $name, $email, $password, $role);
 
       if ($stmt->execute()) {
         $successMessage = '✅ Registro completado correctamente.';

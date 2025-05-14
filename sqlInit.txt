@@ -1,52 +1,35 @@
-// TABLA USUARIOS
+// BASE DE DATOS 
+CREATE DATABASE rentaveloz;
+
+// TABLA USUARIOS ----------------------------------------
 CREATE TABLE system_user (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  name VARCHAR(100) NOT NULL,
-  email VARCHAR(100) NOT NULL UNIQUE,
-  password VARCHAR(255) NOT NULL,
-  role ENUM('admin', 'client') DEFAULT 'client',
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(150) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    role ENUM('admin', 'client') DEFAULT 'client',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-// password = 1234
 INSERT INTO system_user (name, email, password, role)
-VALUES 
-  ('Admin User', 'admin@rentaveloz.com', '$2y$10$eYzvD0mG3Zt/F1yThn8x5e1cc4uQ2Y8c3NSeSrru04VgGuJqS2jG2', 'admin'),
-  ('Client Test', 'client@rentaveloz.com', '$2y$10$eYzvD0mG3Zt/F1yThn8x5e1cc4uQ2Y8c3NSeSrru04VgGuJqS2jG2', 'client');
+VALUES ('Nahuel', 'admin@rentaveloz.com', '1234', 'admin');
 
 
-// TABLA RESERVAS
-CREATE TABLE reservations (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  vehicle VARCHAR(100) NOT NULL,
-  start_date DATE NOT NULL,
-  end_date DATE NOT NULL,
-  status ENUM('Confirmed', 'Cancelled', 'Completed') NOT NULL,
-  user_id INT,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN KEY (user_id) REFERENCES system_user(id)
-);
-
-INSERT INTO reservations (vehicle, start_date, end_date, status, user_id)
-VALUES 
-  ('Toyota Corolla', '2024-06-10', '2024-06-10', 'Confirmed', 1),
-  ('Ford EcoSport', '2024-05-22', '2024-06-10', 'Cancelled', 2),
-  ('Chevrolet Onix', '2024-04-15', '2024-06-10', 'Completed', 1);
-
-
-// TABLA AUTOS
+// TABLA AUTOS ----------------------------------------
 CREATE TABLE cars (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  image VARCHAR(255) NOT NULL,
-  old_price DECIMAL(10,2) NOT NULL,
-  new_price DECIMAL(10,2) NOT NULL,
-  title VARCHAR(255) NOT NULL,
-  km VARCHAR(20) NOT NULL,
-  engine VARCHAR(100) NOT NULL,
-  transmission ENUM('Manual', 'Automática') NOT NULL,
-  passengers TINYINT UNSIGNED NOT NULL,
-  air_conditioning TINYINT(1) NOT NULL DEFAULT 0
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    image VARCHAR(255),
+    title VARCHAR(100) NOT NULL,
+    km VARCHAR(50),
+    old_price DECIMAL(10, 2),
+    new_price DECIMAL(10, 2),
+    engine VARCHAR(100),
+    transmission VARCHAR(20),
+    passengers INT,
+    air_conditioning TINYINT(1),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
 
 INSERT
 
@@ -58,7 +41,32 @@ INSERT INTO cars (id, image, old_price, new_price, title, km, engine, transmissi
 (5, 'assets/images/product-5-720x480.jpg', 60000.00, 58000.00, 'BMW M2 Coupé', '0 km', '3.0L Turbo 480 CV', 'Manual', 4, 1),
 (6, 'assets/images/product-6-720x480.jpg', 80000.00, 78000.00, 'BMW M3 Competition Verde Mantis', '0 km', '3.0L Turbo 510 CV', 'Automática', 5, 1);
 
-// TABLA MANTENIMIENTO 
+
+// TABLA RESERVAS ----------------------------------------
+CREATE TABLE reservations (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    car_id INT NOT NULL,
+    days INT NOT NULL,
+    init_date DATE NOT NULL,
+    end_date DATE NOT NULL,
+    total_amount DECIMAL(10, 2),
+    payment_method VARCHAR(50),
+    status_code INT, -- podés usar ENUM si querés más legibilidad
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (user_id) REFERENCES system_user(id) ON DELETE CASCADE,
+    FOREIGN KEY (car_id) REFERENCES cars(id) ON DELETE CASCADE
+);
+
+INSERT INTO reservations (vehicle, start_date, end_date, status, user_id)
+VALUES 
+  ('Toyota Corolla', '2024-06-10', '2024-06-10', 'Confirmed', 1),
+  ('Ford EcoSport', '2024-05-22', '2024-06-10', 'Cancelled', 2),
+  ('Chevrolet Onix', '2024-04-15', '2024-06-10', 'Completed', 1);
+
+
+// Tabla mantenimientos ----------------------------------------
 CREATE TABLE maintenance (
     id INT AUTO_INCREMENT PRIMARY KEY,
     car_id INT NOT NULL,
@@ -92,7 +100,7 @@ INSERT INTO maintenance (
 );
 
 
-TO DO : 
+TO DO : ---------------------
 
 Falta:
 - add autos --- OK 
