@@ -55,9 +55,9 @@ $isLogged = isset($_SESSION['user_id']);
           <thead class="table-light">
             <tr>
               <th>Imagen</th>
+              <th>Modelo</th>
               <th>Precio Ant.</th>
               <th>Precio Nuevo</th>
-              <th>Modelo</th>
               <th>Km</th>
               <th>Motor</th>
               <th>Transmisión</th>
@@ -109,9 +109,9 @@ $isLogged = isset($_SESSION['user_id']);
                   <!-- ***** tabla visual ***** -->
                   <tr>
                     <td><img height='100' width='150' src="<?= htmlspecialchars($car['image']) ?>" /></td>
+                    <td> <?= htmlspecialchars($car['title']) ?></td>
                     <td><?= number_format((float)$car['old_price'], 2, ',', '.') ?></td>
                     <td><?= number_format((float)$car['new_price'], 2, ',', '.') ?></td>
-                    <td> <?= htmlspecialchars($car['title']) ?></td>
                     <td><?= htmlspecialchars($car['km']) ?></td>
                     <td><?= htmlspecialchars($car['engine']) ?></td>
                     <td><?= htmlspecialchars($car['transmission']) ?></td>

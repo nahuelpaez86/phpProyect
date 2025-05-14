@@ -5,9 +5,7 @@
   require_once 'components/header.php';
   require_once 'components/loader.php';
   require_once 'components/footer.php';
-  require_once 'services/usersServices.php';
-  
-  $users = handleUserGet();
+
   $isLogged = isset($_SESSION['user_id']);
 ?>
 
@@ -49,7 +47,7 @@
   <div class="container px-300">
       <h3 class="fw-bold mb-4 mt-20">Agregar Autos</h3>
       <div >
-      <a href="admin-users.php" class="btn btn-sm btn-primary">Volver a todos los Autos</a>
+      <a href="admin-cars.php" class="btn btn-sm btn-primary">Volver a todos los Autos</a>
       <div>
       <div class="container mt-5">
         <h2>Agregar nuevo auto</h2>
@@ -59,8 +57,9 @@
                 <input type="file" name="image" id="image" class="form-control" accept="image/*" required>
             </div>
             <div class="mb-3">
-            <label for="title" class="form-label"><strong>Título</strong></label>
+            <label for="title" class="form-label"><strong>Modelo</strong></label>
             <input type="text" name="title" id="title" class="form-control" required>
+                  
             </div>
 
             <div class="mb-3">
